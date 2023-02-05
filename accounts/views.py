@@ -1,16 +1,18 @@
 """ accounts/views.py """
-from django.shortcuts import render, HttpResponse
-from accounts.models import CustomUser
-from accounts.serializers import (
-    CustomUserSerializer, UserAuthTokenSerializer, ChangePasswordSerializer, MessageSerializer
-)
-from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+
+from django.shortcuts import render, HttpResponse, get_object_or_404
+
+from accounts.models import CustomUser
+from accounts.serializers import (
+    CustomUserSerializer, UserAuthTokenSerializer,
+    ChangePasswordSerializer, MessageSerializer
+)
 
 
 class CustomUserAPIView(generics.CreateAPIView):
@@ -64,19 +66,16 @@ class ChangePasswordAPIView(generics.UpdateAPIView):
         user = self.get_object(request)
 
 
-
 class GetMessageAPIView(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = CustomUserSerializer
 
     def get_object(self):
-        import pdb; pdb.set_trace()
         token = Token.objects.get(key=request.auth.key)
         return CustomUser.objects.get(id=user_id)
 
     def get(self, request, *args, **kwargs):
-        import pdb; pdb.set_trace()
         user = self.get_object()
         serializer = CustomUserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)

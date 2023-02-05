@@ -59,26 +59,21 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         fields = ['password', 'password2', 'old_password']
 
     def validate(self, attrs):
-        import pdb; pdb.set_trace()
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({'password': "Password fields didn't match"})
         return attrs
 
     def validate_old_password(self, value):
-        import pdb; pdb.set_trace()
         user = self.context['request'].user
         if not user.check_password(value):
             raise serializers.ValidationError({'old_password': 'Old Password is not correct'})
         return value
 
     def update(self, instance, validated_data):
-        import pdb; pdb.set_trace()
         instance.set_password(validated_data['password'])
         instance.save()
-
         return instance
 
 
 class MessageSerializer(serializers.Serializer):
     message = serializers.CharField(required=False)
-
