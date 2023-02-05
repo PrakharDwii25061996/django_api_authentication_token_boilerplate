@@ -1,0 +1,2 @@
+# django_api_authentication_token_boilerplate
+Simple API Authentication Project
