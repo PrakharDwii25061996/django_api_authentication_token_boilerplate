@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db.sqlite3
+*.log
+
+.env
+**/*.pyc
+**/__pycache__
+media/
+*.env
+/.env
